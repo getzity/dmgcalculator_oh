@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Damage Calculator with Reduction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e2327;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #1e2327;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #555555;
+            background-color: #818c96
+        }
+        input:invalid {
+            border-color: red;
+        }
+        .result {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ffffff;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #5281bb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #17316a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>⚔️Damage Calculator⚔️</h2>
+
+    <label for="baseDamage">🔥⚔️Base Damage</label>
+    <input type="number" id="baseDamage" value="300" min="1" title="Enter the base damage (must be a positive number)">
+
+    <label for="weaponDamageBonus">🔫⚔️Weapon Damage Bonus (%)</label>
+    <input type="number" id="weaponDamageBonus" value="20" min="0" title="Percentage bonus damage from your weapon (e.g., 20 for 20%)">
+
+    <label for="enemyDamageBonus">👻⚔️Damage Bonus Against Enemies (%)</label>
+    <input type="number" id="enemyDamageBonus" value="8" min="0" title="Percentage bonus damage when fighting enemies">
+
+    <label for="vulnerabilityMultiplier">🎯⚔️Weakspot Multiplier (%)</label>
+    <input type="number" id="vulnerabilityMultiplier" value="8" min="0" title="Weakspot damage multiplier (e.g., headshots, armor breaks)">
+
+    <label for="critDamage">💥⚔️Critical Damage (%)</label>
+    <input type="number" id="critDamage" value="30" min="0" title="Critical damage bonus damage (percentage)">
+
+    <!-- Damage Reduction Section -->
+    <h3>🛡️Damage Reduction🛡️</h3>
+    <label for="weaponDamageReduction">🔫🛡️Weapon Damage Reduction (%)</label>
+    <input type="number" id="weaponDamageReduction" value="10" min="0" title="Enter the percentage of weapon damage reduction (e.g., 10%)">
+
+    <label for="torsoDamageReduction">👕🛡️Torso Damage Reduction (%)</label>
+    <input type="number" id="torsoDamageReduction" value="10" min="0" title="Enter the percentage of torso damage reduction (e.g., 10%)">
+
+    <label for="statusDamageReduction">⚡🛡️Status Damage Reduction (%)</label>
+    <input type="number" id="statusDamageReduction" value="5" min="0" title="Enter the percentage of status damage reduction (e.g., 5%)">
+
+    <button onclick="calculateDamage()">Calculate</button>
+
+    <div class="result" id="result">💀Final Damage💀: </div>
+</div>
+
+<script>
+    function calculateDamage() {
+        // Get input values for base damage calculations
+        let baseDamage = parseFloat(document.getElementById('baseDamage').value);
+        let weaponDamageBonus = parseFloat(document.getElementById('weaponDamageBonus').value) / 100;
+        let enemyDamageBonus = parseFloat(document.getElementById('enemyDamageBonus').value) / 100;
+        let vulnerabilityMultiplier = parseFloat(document.getElementById('vulnerabilityMultiplier').value) / 100;
+        let critDamage = parseFloat(document.getElementById('critDamage').value) / 100;
+
+        // Calculate initial final damage before reductions
+        let finalDamage = baseDamage * (1 + weaponDamageBonus) * (1 + enemyDamageBonus) * (1 + vulnerabilityMultiplier) * (1 + critDamage);
+
+        // Get input values for damage reduction
+        let weaponDamageReduction = parseFloat(document.getElementById('weaponDamageReduction').value) / 100;
+        let torsoDamageReduction = parseFloat(document.getElementById('torsoDamageReduction').value) / 100;
+        let statusDamageReduction = parseFloat(document.getElementById('statusDamageReduction').value) / 100;
+
+        // Calculate the damage after applying reductions
+        let reducedDamage = finalDamage * (1 - weaponDamageReduction) * (1 - torsoDamageReduction) * (1 - statusDamageReduction);
+
+        // Display the result
+        document.getElementById('result').textContent = 'Final Damage: ' + reducedDamage.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
